@@ -1,9 +1,9 @@
-export const handle = (event) => {
+export const handle = async (event) => {
   return {
     statusCode: 201,
-    body: {
-      message: "Hello World",
-    },
+    body: JSON.stringify({
+        message: "Hello World",
+      }),
     headers: {
       "Content-Type": "application/json",
     },
