@@ -1,0 +1,4 @@
+service:
+  name : certificate-manager
+
+plugins:
