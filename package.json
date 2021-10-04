@@ -4,7 +4,9 @@
   "description": "Serverless aws-nodejs-typescript template",
   "dependencies": {
     "@middy/core": "^1.5.2",
-    "@middy/http-json-body-parser": "^1.5.2"
+    "@middy/http-json-body-parser": "^1.5.2",
+    "serverless-offline": "^8.2.0",
+    "serverless-webpack": "^5.5.4"
   },
   "devDependencies": {
     "@serverless/typescript": "^2.23.0",
