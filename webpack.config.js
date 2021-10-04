@@ -53,14 +53,14 @@ module.exports = {
       },
     ],
   },
-  plugins: [
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: "./src/templates",
-          to: path.join(__dirname, ".webpack/service/src/templates"),
-        },
-      ],
-    }),
-  ],
+//   plugins: [
+//     new CopyWebpackPlugin({
+//       patterns: [
+//         {
+//           from: "./src/templates",
+//           to: path.join(__dirname, ".webpack/service/src/templates"),
+//         },
+//       ],
+//     }),
+//   ],
 };
