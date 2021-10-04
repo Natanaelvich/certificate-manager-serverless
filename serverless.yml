@@ -2,3 +2,13 @@ service:
   name : certificate-manager
 
 plugins:
+  - serverless-offline
+  - serverless-webpack
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+functions:
+  hello:
+    handler: src/functions/hello.handle
