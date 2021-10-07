@@ -1,6 +1,7 @@
 import path from "path";
 import handlebars from "handlebars";
 import fs from "fs";
+import chromium from "chrome-aws-lambda";
 import dayjs from "dayjs";
 
 import { document } from "../utils/dynamodbClient";
@@ -46,20 +47,41 @@ export const handle = async (event) => {
     })
     .promise();
 
-    const medalPath = path.join(process.cwd(), "src", "templates", "selo.png");
-    const medal = fs.readFileSync(medalPath, "base64");
-  
-    const data: ITemplate = {
-      date: dayjs().format("DD/MM/YYYY"),
-      grade,
-      name,
-      id,
-      medal,
-    };
-  
-    // Gera o certificado
-    // Compilar usando handlebars
-    const content = await compile(data);
+  const medalPath = path.join(process.cwd(), "src", "templates", "selo.png");
+  const medal = fs.readFileSync(medalPath, "base64");
+
+  const data: ITemplate = {
+    date: dayjs().format("DD/MM/YYYY"),
+    grade,
+    name,
+    id,
+    medal,
+  };
+
+  // compile with handlebars
+  const content = await compile(data);
+
+  // transform to PDF
+  const browser = await chromium.puppeteer.launch({
+    headless: true,
+    args: chromium.args,
+    defaultViewport: chromium.defaultViewport,
+    executablePath: await chromium.executablePath,
+  });
+
+  const page = await browser.newPage();
+
+  await page.setContent(content);
+
+  const pdf = await page.pdf({
+    format: "a4",
+    landscape: true,
+    path: process.env.IS_OFFLINE ? "certificate.pdf" : null,
+    printBackground: true,
+    preferCSSPageSize: true,
+  });
+
+  await browser.close();
 
   return {
     statusCode: 201,
