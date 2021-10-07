@@ -98,11 +98,12 @@ export const handle = async (event) => {
       ContentType: "application/pdf",
     })
     .promise();
-
+    
   return {
     statusCode: 201,
     body: JSON.stringify({
       message: "Certificate created",
+      url: `https://certificates-manager-files.s3.sa-east-1.amazonaws.com/${id}.pdf`,
     }),
     headers: {
       "Content-Type": "application/json",
