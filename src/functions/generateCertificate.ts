@@ -3,6 +3,7 @@ import handlebars from "handlebars";
 import fs from "fs";
 import chromium from "chrome-aws-lambda";
 import dayjs from "dayjs";
+import { S3 } from "aws-sdk";
 
 import { document } from "../utils/dynamodbClient";
 
@@ -82,6 +83,21 @@ export const handle = async (event) => {
   });
 
   await browser.close();
+
+
+  // save on S3
+
+  const s3 = new S3();
+
+  await s3
+    .putObject({
+      Bucket: "certificates-manager-files",
+      Key: `${id}.pdf`,
+      ACL: "public-read",
+      Body: pdf,
+      ContentType: "application/pdf",
+    })
+    .promise();
 
   return {
     statusCode: 201,
