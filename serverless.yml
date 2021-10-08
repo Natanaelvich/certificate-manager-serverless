@@ -23,6 +23,11 @@ provider:
   name: aws
   runtime: nodejs14.x
   region: sa-east-1
+    iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: "*"
 
 functions:
   generateCertificate:
